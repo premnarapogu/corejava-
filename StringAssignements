@@ -1,0 +1,99 @@
+public class StringManipulation {
+    
+    private String myString = "The quick brown fox jumps over the lazy dog";
+    
+    public void characterAtIndex(int index) {
+        System.out.println(myString.charAt(index));
+    }
+    
+    public void containsWord(String word) {
+        System.out.println(myString.contains(word));
+    }
+    
+    public void addString(String newString) {
+        myString += newString;
+    }
+    
+    public void endsWithWord(String word) {
+        System.out.println(myString.endsWith(word));
+    }
+    
+    public void equals(String otherString) {
+        System.out.println(myString.equals(otherString));
+    }
+    
+    public void equalsIgnoreCase(String otherString) {
+        System.out.println(myString.equalsIgnoreCase(otherString));
+    }
+    
+    public void indexOfCharacter(char ch) {
+        System.out.println(myString.indexOf(ch));
+    }
+    
+    public void lastIndexOfCharacter(char ch) {
+        System.out.println(myString.lastIndexOf(ch));
+    }
+    
+    public void length() {
+        System.out.println(myString.length());
+    }
+    
+    public void matches(String otherString) {
+        System.out.println(myString.matches(otherString));
+    }
+    
+    public void replace(String oldWord, String newWord) {
+        myString = myString.replace(oldWord, newWord);
+    }
+    
+    public void split() {
+        String[] parts = myString.split(" ");
+        for (int i = 0; i < parts.length; i++) {
+            if (i < parts.length - 1) {
+                if (parts[i].matches(".*[a-zA-Z]+.*") && parts[i+1].matches(".*[a-zA-Z]+.*")) {
+                    System.out.print(parts[i] + " ");
+                } else {
+                    System.out.println(parts[i]);
+                }
+            } else {
+                System.out.println(parts[i]);
+            }
+        }
+    }
+    
+    public void printAnimalNames() {
+        String[] parts = myString.split(" ");
+        for (String part : parts) {
+            if (part.matches(".*[a-zA-Z]+.*")) {
+                System.out.println(part);
+            }
+        }
+    }
+    
+    public void printLowerCase() {
+        System.out.println(myString.toLowerCase());
+    }
+    
+    public void printUpperCase() {
+        System.out.println(myString.toUpperCase());
+    }
+    
+    public static void main(String[] args) {
+        StringManipulation sm = new StringManipulation();
+        sm.characterAtIndex(12);
+        sm.containsWord("is");
+        sm.addString("and killed it");
+        sm.endsWithWord("dogs");
+        sm.equals("The quick brown Fox jumps over the lazy Dog");
+        sm.equalsIgnoreCase("THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG");
+        sm.indexOfCharacter('a');
+        sm.lastIndexOfCharacter('e');
+        sm.length();
+        sm.matches("The quick brown Fox jumps over the lazy Dog");
+        sm.replace("The", "A");
+        sm.split();
+        sm.printAnimalNames();
+        sm.printLowerCase();
+        sm.printUpperCase();
+    }
+}

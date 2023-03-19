@@ -1,0 +1,115 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+class BankAccount {
+    private int accountId;
+    private String accountHolderName;
+    private double balance;
+    private static int counter = 0;
+
+    public BankAccount(String accountHolderName, double balance) {
+        this.accountId = ++counter;
+        this.accountHolderName = accountHolderName;
+        this.balance = balance;
+    }
+
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public String getAccountHolderName() {
+        return accountHolderName;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setAccountHolderName(String accountHolderName) {
+        this.accountHolderName = accountHolderName;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+}
+
+class Bank {
+    private Map<Integer, BankAccount> accounts;
+
+    public Bank() {
+        this.accounts = new HashMap<>();
+    }
+
+    public synchronized void addAccount(String accountHolderName, double balance) {
+        BankAccount account = new BankAccount(accountHolderName, balance);
+        accounts.put(account.getAccountId(), account);
+        System.out.println("Account created successfully!");
+    }
+
+    public synchronized void updateAccount(int accountId, String accountHolderName, double balance) {
+        BankAccount account = accounts.get(accountId);
+        if (account != null) {
+            account.setAccountHolderName(accountHolderName);
+            account.setBalance(balance);
+            System.out.println("Account updated successfully!");
+        } else {
+            System.out.println("Account not found!");
+        }
+    }
+
+    public synchronized void deleteAccount(int accountId) {
+        BankAccount account = accounts.get(accountId);
+        if (account != null) {
+            accounts.remove(accountId);
+            System.out.println("Account deleted successfully!");
+        } else {
+            System.out.println("Account not found!");
+        }
+    }
+
+    public synchronized void getAccountDetails(int accountId) {
+        BankAccount account = accounts.get(accountId);
+        if (account != null) {
+            System.out.println("Account ID: " + account.getAccountId());
+            System.out.println("Account Holder Name: " + account.getAccountHolderName());
+            System.out.println("Account Balance: " + account.getBalance());
+        } else {
+            System.out.println("Account not found!");
+        }
+    }
+
+    public synchronized void withdraw(int accountId, double amount) {
+        BankAccount account = accounts.get(accountId);
+        if (account != null) {
+            if (account.getBalance() >= amount) {
+                double newBalance = account.getBalance() - amount;
+                account.setBalance(newBalance);
+                System.out.println("Withdrawal successful!");
+            } else {
+                System.out.println("Insufficient balance!");
+            }
+        } else {
+            System.out.println("Account not found!");
+        }
+    }
+
+    public synchronized void deposit(int accountId, double amount) {
+        BankAccount account = accounts.get(accountId);
+        if (account != null) {
+            double newBalance = account.getBalance() + amount;
+            account.setBalance(newBalance);
+            System.out.println("Deposit successful!");
+        } else {
+            System.out.println("Account not found!");
+        }
+    }
+
+    public synchronized void fundTransfer(int sourceAccountId, int destinationAccountId, double amount) {
+        BankAccount sourceAccount = accounts.get(sourceAccountId);
+        BankAccount destinationAccount = accounts.get(destinationAccountId);
+        if (sourceAccount != null && destinationAccount != null) {
+            if (sourceAccount.getBalance() >= amount) {
+                double newSourceBalance = sourceAccount.getBalance() - amount;
+                double newDestinationBalance = destinationAccount.getBalance() + amount;
